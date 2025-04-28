@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-
+import { Skeleton } from "./ui/skeleton";
 import {
   Form,
   FormControl,
@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import VirtualizedSelect from "./VirtualizedSelect";
 import { Stock } from "@/types";
+import { useStockData } from "@/hooks/useStockData";
 
 const formSchema = z.object({
   alertValue: z
@@ -35,7 +36,7 @@ const formSchema = z.object({
 });
 
 export default function AddStockForm() {
-  const { data: stocks = [] } = useQuery({
+  const { data: stocks = [], isLoading: loadingStocks } = useQuery({
     queryKey: ["get-all-stocks"],
     queryFn: async () => {
       const response = await fetch(
@@ -50,12 +51,19 @@ export default function AddStockForm() {
       })),
   });
 
+  const { stocks: storedStocks, addStock } = useStockData();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  function onSubmit({ stock, alertValue }: z.infer<typeof formSchema>) {
+    const existentStock = storedStocks?.[stock];
+    if (existentStock) {
+      return;
+    }
+    addStock(stock, { alertValue });
+    form.reset();
   }
 
   return (
@@ -65,37 +73,47 @@ export default function AddStockForm() {
           Select an stock and give an alert value to start watching pricing
           updates.
         </FormDescription>
-        <FormField
-          control={form.control}
-          name="stock"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Stock</FormLabel>
-              <FormControl>
-                <VirtualizedSelect options={stocks} formField={field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="alertValue"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Alert value</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter an alert value"
-                  {...field}
-                  value={field.value ?? ""}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Start watching stock</Button>
+        {loadingStocks ? (
+          <Skeleton className="w-full h-[2rem] bg-gray-300" />
+        ) : (
+          <FormField
+            control={form.control}
+            name="stock"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Stock</FormLabel>
+                <FormControl>
+                  <VirtualizedSelect options={stocks} formField={field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {loadingStocks ? (
+          <Skeleton className="w-full h-[2rem] bg-gray-300" />
+        ) : (
+          <FormField
+            control={form.control}
+            name="alertValue"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Alert value</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter an alert value"
+                    {...field}
+                    value={field.value ?? ""}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        <Button type="submit" disabled={loadingStocks}>
+          Start watching stock
+        </Button>
       </form>
     </Form>
   );

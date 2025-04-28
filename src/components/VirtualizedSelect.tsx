@@ -18,7 +18,6 @@ export default function VirtualizedSelect({
   options,
   formField,
 }: VirtualizedSelectProps) {
-  console.log("💥✨💫🪛🔨💣☕️🧉 ~ formField:", formField);
   return (
     <Select
       {...formField}
@@ -43,8 +42,6 @@ export default function VirtualizedSelect({
             </SelectItem>
           )}
         />
-        {/* <SelectItem value={"Hola"}>{"Hola"}</SelectItem>
-        <SelectItem value={"Mundo"}>{"Mundo"}</SelectItem> */}
       </SelectContent>
     </Select>
   );
