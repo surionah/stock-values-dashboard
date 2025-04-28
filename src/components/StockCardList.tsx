@@ -7,7 +7,7 @@ export default function StockCardList() {
   return (
     <div className="flex flex-row flex-nowrap gap-4 items-center overflow-auto">
       {Object.entries(stocks || {}).map(([key, value]) => (
-        <StockCard />
+        <StockCard key={key} />
       ))}
     </div>
   );

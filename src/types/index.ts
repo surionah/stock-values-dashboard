@@ -17,8 +17,8 @@ export interface SelectOption {
 }
 
 export interface StockData {
-  alertValue: string;
-  lastPrice?: number;
+  alertValue: number;
+  lastPrice: number;
 }
 
 export interface StockProviderData {

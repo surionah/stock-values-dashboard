@@ -62,7 +62,7 @@ export default function AddStockForm() {
     if (existentStock) {
       return;
     }
-    addStock(stock, { alertValue });
+    addStock(stock, { alertValue: parseFloat(alertValue), lastPrice: 12.5 });
     form.reset();
   }
 
