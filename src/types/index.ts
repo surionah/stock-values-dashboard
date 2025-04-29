@@ -23,5 +23,7 @@ export interface StockData {
 
 export interface StockProviderData {
   stocks: { [key: string]: StockData } | undefined;
+  symbols: string[];
   addStock: (key: string, data: StockData) => void;
+  updateStock: (key: string, lastPrice: number) => void;
 }

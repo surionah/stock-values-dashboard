@@ -33,20 +33,24 @@ export default function StocksPricingChart() {
   );
 
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-      <BarChart accessibilityLayer data={memoizedStocks}>
-        <XAxis
-          dataKey="stock"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          tickFormatter={(value) => value.slice(0, 3)}
-        />
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <ChartLegend content={<ChartLegendContent />} />
-        <Bar dataKey="alertValue" fill="var(--chart-1)" radius={4} />
-        <Bar dataKey="lastPrice" fill="var(--chart-2)" radius={4} />
-      </BarChart>
-    </ChartContainer>
+    <>
+      {memoizedStocks.length > 0 ? (
+        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+          <BarChart accessibilityLayer data={memoizedStocks}>
+            <XAxis
+              dataKey="stock"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(value) => value.slice(0, 3)}
+            />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartLegend content={<ChartLegendContent />} />
+            <Bar dataKey="alertValue" fill="var(--chart-1)" radius={4} />
+            <Bar dataKey="lastPrice" fill="var(--chart-2)" radius={4} />
+          </BarChart>
+        </ChartContainer>
+      ) : null}
+    </>
   );
 }

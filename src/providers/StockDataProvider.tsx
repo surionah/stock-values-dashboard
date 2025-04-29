@@ -12,9 +12,20 @@ export default function StockDataProvider({
     "stocks"
   );
   const [stocks, setStocks] = useState<{ [key: string]: StockData }>(value);
+  const [watchedSymbols, setWatchedSymbols] = useState<string[]>(
+    Object.keys(value ?? {})
+  );
 
   const addStock = (key: string, data: StockData) => {
     setStocks((prevStocks) => ({ ...prevStocks, [key]: data }));
+    setWatchedSymbols((prevSymbols) => [...prevSymbols, key]);
+  };
+
+  const updateStock = (key: string, lastPrice: number) => {
+    setStocks((prevStocks) => ({
+      ...prevStocks,
+      [key]: { ...prevStocks[key], lastPrice },
+    }));
   };
 
   useEffect(() => {
@@ -22,7 +33,9 @@ export default function StockDataProvider({
   }, [stocks, setValue]);
 
   return (
-    <StockDataContext.Provider value={{ stocks, addStock }}>
+    <StockDataContext.Provider
+      value={{ stocks, symbols: watchedSymbols, addStock, updateStock }}
+    >
       {children}
     </StockDataContext.Provider>
   );

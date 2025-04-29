@@ -44,11 +44,12 @@ export default function AddStockForm() {
       );
       return response.json();
     },
-    select: (data) =>
-      data.map((item: Stock) => ({
+    select: ({ result }) => {
+      return result.map((item: Stock) => ({
         value: item.symbol,
         label: item.description,
-      })),
+      }));
+    },
   });
 
   const { stocks: storedStocks, addStock } = useStockData();
@@ -62,7 +63,7 @@ export default function AddStockForm() {
     if (existentStock) {
       return;
     }
-    addStock(stock, { alertValue: parseFloat(alertValue), lastPrice: 12.5 });
+    addStock(stock, { alertValue: parseFloat(alertValue), lastPrice: 0 });
     form.reset();
   }
 
