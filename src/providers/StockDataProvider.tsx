@@ -3,6 +3,7 @@ import { StockData } from "@/types";
 import { StockDataContext } from "@/hooks/useStockData";
 import useLocalStorage from "@/hooks/useLocalStorage";
 
+// Maneja el estado de los stocks guardados en la app
 export default function StockDataProvider({
   children,
 }: {
@@ -16,11 +17,13 @@ export default function StockDataProvider({
     Object.keys(value ?? {})
   );
 
+  // Agrega un nuevo stock al estado
   const addStock = (key: string, data: StockData) => {
     setStocks((prevStocks) => ({ ...prevStocks, [key]: data }));
     setWatchedSymbols((prevSymbols) => [...prevSymbols, key]);
   };
 
+  // Actualiza el precio de un stock en el estado
   const updateStock = (key: string, lastPrice: number) => {
     setStocks((prevStocks) => ({
       ...prevStocks,

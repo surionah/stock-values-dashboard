@@ -19,6 +19,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+// Componente que muestra un gráfico de barras con los precios de las acciones registradas en el estado del contexto
 export default function StocksPricingChart() {
   const { stocks } = useStockData();
 

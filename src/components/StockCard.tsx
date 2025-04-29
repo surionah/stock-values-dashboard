@@ -16,6 +16,7 @@ interface StockCardProps {
   };
 }
 
+// Componente que muestra la información de un stock
 export default function StockCard({
   stock: { symbol, alertValue, lastPrice },
 }: StockCardProps) {

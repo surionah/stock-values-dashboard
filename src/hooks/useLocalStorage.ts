@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 
+// Maneja la logica de almacenamiento en localstorage
 export default function useLocalStorage<T>(key: string) {
   const value = useMemo(() => {
     try {

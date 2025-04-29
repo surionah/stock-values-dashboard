@@ -14,6 +14,7 @@ interface VirtualizedSelectProps {
   formField: ControllerRenderProps<{ alertValue: string; stock: string }>;
 }
 
+// Componente que renderiza un select con opciones virtualizadas
 export default function VirtualizedSelect({
   options,
   formField,

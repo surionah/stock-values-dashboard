@@ -35,7 +35,9 @@ const formSchema = z.object({
   }),
 });
 
+// Formulario para agregar un nuevo stock a la lista del contexto
 export default function AddStockForm() {
+  // Se obtiene la lista de stocks desde el API de finnhub
   const { data: stocks = [], isLoading: loadingStocks } = useQuery({
     queryKey: ["get-all-stocks"],
     queryFn: async () => {
@@ -54,10 +56,12 @@ export default function AddStockForm() {
 
   const { stocks: storedStocks, addStock } = useStockData();
 
+  // Se inicializa el formulario con react-hook-form y zod
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
+  // Guarda el nuevo stock en el estado del contexto
   function onSubmit({ stock, alertValue }: z.infer<typeof formSchema>) {
     const existentStock = storedStocks?.[stock];
     if (existentStock) {

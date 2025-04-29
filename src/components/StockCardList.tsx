@@ -1,6 +1,7 @@
 import StockCard from "./StockCard";
 import { useStockData } from "@/hooks/useStockData";
 
+// Componente que renderiza una lista de tarjetas de stocks
 export default function StockCardList() {
   const { stocks } = useStockData();
 
